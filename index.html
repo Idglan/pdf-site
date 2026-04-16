@@ -2,12 +2,23 @@
 <html>
 <body>
 <script>
-  const params = new URLSearchParams(window.location.hash.replace('#','?'));
-  const page = params.get('page') || 1;
+  let hash = window.location.hash;
+  let page = 1;
+  let file = "";
 
-  const pdf = "https://raw.githubusercontent.com/Idglan/pdf-site/main/2021%20-%20SOUSA%2C%20Yuri%20S%C3%A1%20Oliveira%20-%20FUNDAMENTOS%20DE%20LEXICOMETRIA%20PARA%20PESQUISAS%20QUALITATIVAS.pdf";
+  if (hash.includes("page=")) {
+    page = hash.split("page=")[1].split("&")[0];
+  }
 
-  window.location.href = `https://mozilla.github.io/pdf.js/web/viewer.html?file=${pdf}#page=${page}`;
+  if (hash.includes("file=")) {
+    file = hash.split("file=")[1].split("&")[0];
+  }
+
+  if (!file) {
+    document.body.innerHTML = "Erro: nenhum PDF especificado.";
+  } else {
+    window.location.href = "https://mozilla.github.io/pdf.js/web/viewer.html?file=" + file + "#page=" + page;
+  }
 </script>
 </body>
 </html>
